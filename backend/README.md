@@ -12,4 +12,18 @@
 
 ---
 
-### 
+### speed
+
+Speed as a double
+
+---
+### laser
+
+1 = active, 0 = inactive
+
+---
+### distance
+
+Distance from start as Double
+
+---

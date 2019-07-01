@@ -2,7 +2,7 @@
 
 class Train {
   constructor(id) {
-    console.log('new Train');
+    console.log('new Train:', id);
 
     this.id = id;                // train id
     this.leaves = false;         // leaves detected
