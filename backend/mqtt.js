@@ -3,7 +3,7 @@
 const mosca = require('mosca');
 
 class MQTT {
-  constructor() {
+  constructor(trainstate) {
     console.log("MQTT init");
 
     this.ascoltatore = {
@@ -25,6 +25,8 @@ class MQTT {
     this.server.on('published', this.published);
     this.server.on('ready', this.afterSetup);
 
+    this.server.on('leaves', this.onLeavesReceive);
+
   }
 
 
@@ -41,6 +43,10 @@ class MQTT {
   // fired when the mqtt server is ready
   afterSetup() {
     console.log('Mosca server is up and running');
+  }
+
+  onLeavesReceive(packet, client) {
+    // console.log('Published', packet.toString());
   }
 }
 

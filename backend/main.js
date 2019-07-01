@@ -1,6 +1,18 @@
 const Mqtt = require('./mqtt');
+const Train = require('./trainstate');
 
-console.log(Mqtt);
+const trainData = new Train();
+
+module.exports = {
+ get trainState() {
+   return trainData;
+ },
+ set trainState(state) {
+  trainData = state;
+}
+} 
+
+const Rest = require('./rest');
+
 const mqttServer = new Mqtt();
-
-console.log(mqttServer);
+const restApi = new Rest();
