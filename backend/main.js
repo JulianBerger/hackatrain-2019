@@ -1,16 +1,6 @@
-const mqtt = require('mqtt')
-const client  = mqtt.connect('mqtt://test.mosquitto.org')
+const Mqtt = require('./mqtt');
 
-client.on('connect', function () {
-  client.subscribe('presence', function (err) {
-    if (!err) {
-      client.publish('presence', 'Hello mqtt')
-    }
-  })
-})
+console.log(Mqtt);
+const mqttServer = new Mqtt();
 
-client.on('message', function (topic, message) {
-  // message is Buffer
-  console.log(message.toString())
-  client.end()
-})
+console.log(mqttServer);
