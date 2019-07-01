@@ -1,5 +1,6 @@
 // const mqtt = require('mqtt')
 // const client = mqtt.connect('mqtt://test.mosquitto.org')
+
 const mosca = require('mosca');
 const main = require('./main');
 const TrainManager = require('./trainstate');
@@ -53,12 +54,15 @@ class MQTT {
           self.onLeavesReceive(trainIdInt, packet, client);
         } else if (route === 'speed') {
           self.onSpeedReceive(trainIdInt, packet, client);
+        } else if (route === 'laser') {
+          self.onLaserReceive(trainIdInt, packet, client);
+        } else if (route === 'distance') {
+          self.onDistanceReceive(trainIdInt, packet, client);
         } else if (route === 'lat') {
           self.onLatReceive(trainIdInt, packet, client);
         } else if (route === 'lon') {
           self.onLonReceive(trainIdInt, packet, client);
         }
-
 
       }
     }
@@ -72,13 +76,37 @@ class MQTT {
   onLeavesReceive(id, packet, client) {
     console.log('leeave:', id, packet);
     const leaves = parseInt(packet.payload) === 1;
-    TrainManager.updateTrain(id, { leaves: leaves });
+    let leavesDistance = -1;
+
+    if(leaves === true && TrainManager.trains && TrainManager.trains[id]) {
+      leavesDistance = TrainManager.trains[id].distance;
+    }
+
+    TrainManager.updateTrain(id, {
+      leaves,
+      leavesDistance,
+     });
   }
 
   onSpeedReceive(id, packet, client) {
-    console.log('speed:', id, packet);
     const speed = parseFloat(packet.payload);
+    console.log('speed:', id, packet, speed);
+
     TrainManager.updateTrain(id, { speed: speed });
+  }
+
+
+  onDistanceReceive(id, packet, client) {
+    const dist = parseFloat(packet.payload);
+    console.log('speed:', id, packet, dist);
+
+    TrainManager.updateTrain(id, { distance: dist });
+  }
+
+  onLaserReceive(id, packet, client) {
+    console.log('laser:', id, packet);
+    const laser = parseInt(packet.payload) === 1;
+    TrainManager.updateTrain(id, { laser: laser });
   }
 
   onLatReceive(id, packet, client) {
