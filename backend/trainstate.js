@@ -8,6 +8,8 @@ class Train {
     this.leaves = false;
     this.leavesLat = 0.0;
     this.leavesLon = 0.0;
+    this.trainSpeed = 10.3;
+
   }
 }
 
@@ -18,24 +20,27 @@ class TrainManager {
     this.trains = [];
 
     this.updateTrain(0, {leaves: false});
+    this.updateTrain(1, {leaves: false});
+
+    setInterval(() => {
+      this.updateTrain(0, {trainSpeed: Math.random() * 20 + 140 });
+      this.updateTrain(1, {trainSpeed: Math.random() * 10 + 130 });
+    }, 500);
+
   }
 
   /* Update Train Data (Object) */
   updateTrain(id, data) {
-    console.log('updateTrain id:', id, data);
+    // console.log('updateTrain id:', id, data);
 
     if (this.trains[id] === undefined || this.trains[id] === null) {
       this.trains[id] = new Train(id);
     } 
     
     for (let [key, value] of Object.entries(data)) {
-      console.log(`for ${key}: ${value}`);
-      this.trains[id].key = value;
+      this.trains[id][key] = value;
     }
-
-    console.log(this.trains);
-
   }
 }
 
-module.exports = TrainManager;
+module.exports = new TrainManager();

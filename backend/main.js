@@ -1,16 +1,13 @@
 const Mqtt = require('./mqtt');
-const Train = require('./trainstate');
+const trainData = require('./trainstate');
 
-const trainData = new Train();
+// const trainData = new Train();
 
 module.exports = {
- get trainState() {
-   return trainData;
- },
- set trainState(state) {
-  trainData = state;
+  get trainState() {
+    return trainData;
+  }
 }
-} 
 
 const Rest = require('./rest');
 
