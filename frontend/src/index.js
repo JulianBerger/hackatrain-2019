@@ -4,6 +4,8 @@ import './index.css';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import User from './User';
+import Leaves from './Leaves';
+
 import * as serviceWorker from './serviceWorker';
 
 require('dotenv').config()
@@ -13,6 +15,9 @@ const routing = (
     <div>
       <Route exact path="/" component={App} />
       <Route path="/user" component={User} />
+      <Route path="/leaves" component={Leaves} />
+
+      
     </div>
   </Router>
 )
