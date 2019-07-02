@@ -1,9 +1,16 @@
 // const mqtt = require('mqtt')
 // const client = mqtt.connect('mqtt://test.mosquitto.org')
+
 const mosca = require('mosca');
+const main = require('./main');
+const TrainManager = require('./trainstate');
+
+let self = null;
 
 class MQTT {
-  constructor() {
+  constructor(trainstate) {
+    self = this;
+
     console.log("MQTT init");
 
     this.ascoltatore = {
@@ -24,7 +31,6 @@ class MQTT {
     this.server.on('clientConnected', this.clientConnected);
     this.server.on('published', this.published);
     this.server.on('ready', this.afterSetup);
-
   }
 
 
@@ -35,12 +41,84 @@ class MQTT {
 
   // fired when a message is received
   published(packet, client) {
-    console.log('Published', packet.payload);
+    console.log('Published', packet.topic, packet.payload);
+
+    if (packet.topic.startsWith('train')) {
+      const trainDataSplit = packet.topic.substr(6).split('/');
+      console.log(trainDataSplit);
+      if (trainDataSplit[0]) {
+        const trainIdInt = parseInt(trainDataSplit[0]);
+        const route = trainDataSplit[1];
+
+        if (route === 'leaves') {
+          self.onLeavesReceive(trainIdInt, packet, client);
+        } else if (route === 'speed') {
+          self.onSpeedReceive(trainIdInt, packet, client);
+        } else if (route === 'laser') {
+          self.onLaserReceive(trainIdInt, packet, client);
+        } else if (route === 'distance') {
+          self.onDistanceReceive(trainIdInt, packet, client);
+        } else if (route === 'lat') {
+          self.onLatReceive(trainIdInt, packet, client);
+        } else if (route === 'lon') {
+          self.onLonReceive(trainIdInt, packet, client);
+        }
+
+      }
+    }
   };
 
   // fired when the mqtt server is ready
   afterSetup() {
     console.log('Mosca server is up and running');
+  }
+
+  onLeavesReceive(id, packet, client) {
+    console.log('leeave:', id, packet);
+    const leaves = parseInt(packet.payload) === 1;
+    let leavesDistance = -1;
+
+    if(leaves === true && TrainManager.trains && TrainManager.trains[id]) {
+      leavesDistance = TrainManager.trains[id].distance;
+    }
+
+    TrainManager.updateTrain(id, {
+      leaves,
+      leavesDistance,
+     });
+  }
+
+  onSpeedReceive(id, packet, client) {
+    const speed = parseFloat(packet.payload);
+    console.log('speed:', id, packet, speed);
+
+    TrainManager.updateTrain(id, { trainSpeed: speed });
+  }
+
+
+  onDistanceReceive(id, packet, client) {
+    const dist = parseFloat(packet.payload);
+    console.log('speed:', id, packet, dist);
+
+    TrainManager.updateTrain(id, { distance: dist });
+  }
+
+  onLaserReceive(id, packet, client) {
+    console.log('laser:', id, packet);
+    const laser = parseInt(packet.payload) === 1;
+    TrainManager.updateTrain(id, { laser: laser });
+  }
+
+  onLatReceive(id, packet, client) {
+    console.log('lat:', id, packet);
+    const lat = parseFloat(packet.payload);
+    TrainManager.updateTrain(id, { leavesLat: lat });
+  }
+
+  onLonReceive(id, packet, client) {
+    console.log('lon:', id, packet);
+    const lon = parseFloat(packet.payload);
+    TrainManager.updateTrain(id, { leavesLon: lon });
   }
 }
 
