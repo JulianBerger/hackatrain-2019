@@ -103,26 +103,24 @@ class User extends React.Component {
 							backgroundImage: `url(${TrainImg})`,
 							left: this.getDistancePosition() + '%',
 						}}>
-
 						</div>
 					</div>
 
 					<div className="Sub-Info">
-					<h3>Speed: {this.state.speed.toString()} km/h</h3>
+					<h4>Tuesday, 2. July, 21° C 🌤</h4>
 
-					{this.state.leaves && (
-						<div className="Speed-Warning">
-							<div className="Warning-Icon" style={{
-								backgroundImage: `url(${LeafImg})`
-							}}>
+						<h4>Speed: {this.state.speed.toString()} km/h</h4>
 
-							</div>
-							The train slowed down because it detected Leaves on the Rails...
+						{this.state.leaves && (
+							<div className="Speed-Warning">
+								<div className="Warning-Icon" style={{
+									backgroundImage: `url(${LeafImg})`
+								}}>
+
+								</div>
+								The train slowed down because it detected Leaves on the Rails...
 					</div>)}
-
-					<h3>Temperature: 21° C 🌤</h3>
-
-				</div>
+					</div>
 				</div>
 
 
