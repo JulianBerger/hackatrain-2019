@@ -10,8 +10,8 @@ class Train {
 
     this.leavesDistance = -1.0;  // where are the leaves on the track
 
-    this.leavesLat = 0.0;        // leaves gps coord
-    this.leavesLon = 0.0;        // leaves gps coord
+    this.leavesLat = -1.0;        // leaves gps coord
+    this.leavesLon = -1.0;        // leaves gps coord
     this.trainSpeed = -1;        // speed
     this.distance = -1;          // where is the train on the track
     this.updated = -1;           // timestamp of last update
@@ -24,8 +24,8 @@ class TrainManager {
 
     this.trains = [];
 
-    this.updateTrain(0, { leaves: false });
-    this.updateTrain(1, { leaves: false });
+    this.updateTrain(0, { });
+    this.updateTrain(1, { });
 
     /*
     setInterval(() => {
