@@ -92,7 +92,7 @@ class MQTT {
     const speed = parseFloat(packet.payload);
     console.log('speed:', id, packet, speed);
 
-    TrainManager.updateTrain(id, { speed: speed });
+    TrainManager.updateTrain(id, { trainSpeed: speed });
   }
 
 
