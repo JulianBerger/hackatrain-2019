@@ -58,8 +58,8 @@ class MQTT {
           self.onLaserReceive(trainIdInt, packet, client);
         } else if (route === 'distance') {
           self.onDistanceReceive(trainIdInt, packet, client);
-        } else if (route === 'lat') {
-          self.onLatReceive(trainIdInt, packet, client);
+        } else if (route === 'flag') {
+          self.onFlagReceive(trainIdInt, packet, client);
         } else if (route === 'lon') {
           self.onLonReceive(trainIdInt, packet, client);
         }
@@ -109,10 +109,10 @@ class MQTT {
     TrainManager.updateTrain(id, { laser: laser });
   }
 
-  onLatReceive(id, packet, client) {
-    console.log('lat:', id, packet);
-    const lat = parseFloat(packet.payload);
-    TrainManager.updateTrain(id, { leavesLat: lat });
+  onFlagReceive(id, packet, client) {
+    console.log('flag:', id, packet);
+    const flag = parseInt(packet.payload);
+    TrainManager.updateTrain(id, { flag: flag });
   }
 
   onLonReceive(id, packet, client) {

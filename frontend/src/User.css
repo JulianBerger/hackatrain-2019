@@ -1,0 +1,93 @@
+.User {
+  position: fixed;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(120deg, rgb(96, 125, 222), rgb(100, 100, 245));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding: 10% 0;
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.Info {
+  position: relative;
+  margin: 20px;
+  margin-top: 50px;
+  min-width: 50%;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+.Info-Ride {
+  margin-bottom: 70px;
+}
+
+.Sub-Info {
+  position: relative;
+  margin: 20px;
+  margin-top: 50px;
+  min-width: 50%;
+  padding: 40px;
+  background-color: rgba(119, 119, 119, 0.04);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
+  border-radius: 20px;
+  transition: transform 0.26s ease;
+}
+
+.Speed-Warning {
+  font-size: 15px;
+  font-weight: 800;
+  color: #f04d4d;
+  margin-bottom: 15px;
+}
+
+.Warning-Icon {
+  height: 20px;
+  background-size: contain;
+  margin: 10px;
+  background-repeat: space;
+  background-size: 20px auto;
+  max-width: 100px;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.Rails-Bg {
+  position: relative;
+  margin: 20px;
+  height: 50px;
+  background-size: contain;
+  background-repeat: repeat-x;
+
+}
+
+.Train-Progress {
+  position: absolute;
+  top: 8px;
+  width: 151px;
+  height: 41px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.Train-Startstation {
+  position: absolute;
+  font-size: 15px;
+  font-weight: 800;
+  top: -28px;
+left: -25px;
+}
+
+.Train-Endstation {
+  position: absolute;
+  font-size: 15px;
+  font-weight: 800;
+  top: -28px;
+right: -25px;
+}
