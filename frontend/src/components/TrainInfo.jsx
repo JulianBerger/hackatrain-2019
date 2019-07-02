@@ -9,9 +9,10 @@ export const TrainInfo = (props) => {
 			<div style={{ flex: "1" }}></div>
 			{/* 
 			</span> */}
-			<div style={{ flex: "1",fontSize: "50px",
+			<div style={{ flex: "1",fontSize: "24px",
 					fontFamily: prefferedFontFamily,
 					textAlign:"center",
+					padding: "20px",
 					color: "#666"}}>
 					{props.trainSpeed}km/h
 			</div>

@@ -33,7 +33,15 @@ class User extends React.Component {
 				const res = await MQTTManager.pull()
 				console.log(res)
 
-				this.setState({ train1: res.data.trains[0], train2: res.data.trains[1], speed: res.data.trains[0].trainSpeed, leaves: res.data.trains[0].leaves, distance: res.data.trains[0].distance, })
+				this.setState({ speed: res.data.trains[0].trainSpeed, leaves: res.data.trains[0].leaves, distance: res.data.trains[0].distance, })
+				let train2 = Object.assign({}, res.data.trains[0]);
+				train2.leaves = false;
+
+				this.setState({ train2: train2 })
+				let train1 = Object.assign({}, res.data.trains[0]);
+				train1.distance = res.data.trains[0].distance + 2000;
+				train1.distance = res.data.trains[0].distance + 2000;
+				this.setState({ train1: train1 })
 				console.log(this.state)
 			} catch (e) {
 				console.log("res")
@@ -78,7 +86,7 @@ class User extends React.Component {
 		}
 		const mins = parseInt(this.rideTimeMin - (percentage * this.rideTimeMin));
 		const dt = new Date();
-		console.log('mins', percentage, mins);
+		// console.log('mins', percentage, mins);
 
 
 		return new Date(dt.getTime() + mins * 60000);
@@ -103,7 +111,6 @@ class User extends React.Component {
 			<div className="Leaves">
 
 				<div className="Info">
-					<h2 className="Info-Ride">Welcome to the Autonomous Train to Amsterdam 🙋‍</h2>
 
 					<div className="Rails-Bg" style={{
 						backgroundImage: `url(${RailsSideImg})`
@@ -143,7 +150,7 @@ class User extends React.Component {
 
 					<div className="SubInfo-Container">
 						<div className="Sub-Info">
-						<h2><span className="Train1-Color-Cirlce"></span> Train 1</h2>
+							<h2><span className="Train1-Color-Cirlce"></span> Train 1</h2>
 
 							<h4>Speed: {trainSpeed1} km/h (Max: {maxSpeed1} km/h)</h4>
 							<h4>Arrives <Moment fromNow>{this.getTimeToDest(this.state.train1.distance)}</Moment></h4>

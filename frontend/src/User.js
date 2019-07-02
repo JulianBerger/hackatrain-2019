@@ -77,7 +77,7 @@ class Leaves extends React.Component {
 		}
 		const mins = parseInt(this.rideTimeMin - (percentage * this.rideTimeMin));
 		const dt = new Date();
-		console.log('mins', percentage, mins);
+		// console.log('mins', percentage, mins);
 
 
 		return new Date(dt.getTime() + mins * 60000);

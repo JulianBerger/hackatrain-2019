@@ -3,6 +3,7 @@ import './App.css';
 
 import { Train } from './components/Train'
 import { TrainInfo } from './components/TrainInfo'
+import Leaves from './Leaves';
 
 import MQTTManager from './utils/MQTTManager'
 
@@ -16,11 +17,16 @@ class App extends React.Component {
 		}
 	}
 
-	start(){
+	start() {
 		setInterval(async () => {
 			try {
 				const res = await MQTTManager.pull()
-				this.setState({ train1: res.data.trains[0], train2: res.data.trains[1] })
+				this.setState({ train2: res.data.trains[0], })
+				let train1 = Object.assign({}, res.data.trains[0]);
+				train1.distance = res.data.trains[0].distance + 2000;
+				this.setState({ train1: train1 })
+
+
 			} catch (e) {
 				console.log("res")
 			}
@@ -40,21 +46,47 @@ class App extends React.Component {
 		return (
 			<div style={{
 				display: "flex",
+				flexDirection: "column"
 			}}>
-				<div className="App" style={{ flex: "2" }}>
-					<Train bg={"#3A9FD8"} />
-					<Train bg={"#fdd835"} />
-				</div>
+				<div className="App">
 				<div style={{
-					flex: "1",
-					background: "#2483B8",
-					display: "flex",
-					width: "300px",
-					flexDirection: "column"
-				}}>
-					<TrainInfo trainSpeed={parseFloat(trainSpeed1).toFixed(1)} />
-					<TrainInfo trainSpeed={parseFloat(trainSpeed2).toFixed(1)} />
+						display: "flex",
+						flexDirection: "row"
+					}}>
+
+						<Train />
+
+						<div style={{
+							flex: "1",
+							display: "flex",
+							width: "300px",
+							flexDirection: "column"
+						}}>						<TrainInfo trainSpeed={parseFloat(trainSpeed1).toFixed(1)} />
+
+						</div>
+					</div>
+
+					<div style={{
+						display: "flex",
+						flexDirection: "row"
+					}}>
+
+						<Train greenTrain={true} />
+
+						<div style={{
+							flex: "1",
+							display: "flex",
+							width: "300px",
+							flexDirection: "column"
+						}}>						<TrainInfo trainSpeed={parseFloat(trainSpeed2).toFixed(1)} />
+
+						</div>
+					</div>
 				</div>
+
+
+				<Leaves></Leaves>
+
 			</div>
 		)
 	}

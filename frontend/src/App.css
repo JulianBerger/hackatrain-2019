@@ -1,9 +1,12 @@
+body {
+  background: linear-gradient(120deg, rgb(96, 125, 222), rgb(100, 100, 245));
+
+}
+
 .App {
   text-align: center;
   display:flex;
   flex-direction: column;
-  height: 100vh;
-
 }
 
 

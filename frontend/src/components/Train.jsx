@@ -1,5 +1,7 @@
 import React from 'react'
 import TrainImage from '../assets/train2.png'
+import TrainImage2 from '../assets/train3.png'
+
 import GoogleMapReact from 'google-map-react'
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
@@ -21,23 +23,10 @@ export const Train = (props) => {
 			flex: "1",
 			position: "relative"
 		}}>
-			<div style={{ position: "absolute", top: "15px", right: "15px", height: '130px', width: '200px' }}>
-				<GoogleMapReact
-					bootstrapURLKeys={{ key: process.env.REACT_APP_DEV_API_KEY }}
-					defaultCenter={defaultProps.center}
-					defaultZoom={defaultProps.zoom}
-				>
-					<AnyReactComponent
-						lat={59.955413}
-						lng={30.337844}
-						text="My Marker"
-					/>
-				</GoogleMapReact>
-			</div>
 			<div
 				className={"train"}
 				style={{
-					backgroundImage: `url(${TrainImage})`
+					backgroundImage: `url(${props.greenTrain ? TrainImage2 : TrainImage})`
 				}}
 			/>
 		</div>

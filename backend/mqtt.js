@@ -41,11 +41,11 @@ class MQTT {
 
   // fired when a message is received
   published(packet, client) {
-    console.log('Published', packet.topic, packet.payload);
+    // console.log('Published', packet.topic, packet.payload);
 
     if (packet.topic.startsWith('train')) {
       const trainDataSplit = packet.topic.substr(6).split('/');
-      console.log(trainDataSplit);
+      // console.log(trainDataSplit);
       if (trainDataSplit[0]) {
         const trainIdInt = parseInt(trainDataSplit[0]);
         const route = trainDataSplit[1];
@@ -60,8 +60,10 @@ class MQTT {
           self.onDistanceReceive(trainIdInt, packet, client);
         } else if (route === 'flag') {
           self.onFlagReceive(trainIdInt, packet, client);
-        } else if (route === 'lon') {
-          self.onLonReceive(trainIdInt, packet, client);
+        } else if (route === 'leaves_distance') {
+          self.onLeavesDistanceReceived(trainIdInt, packet, client);
+        } else if (route === 'leaves_length') {
+          self.onLeavesLengthReceived(trainIdInt, packet, client);
         }
 
       }
@@ -74,23 +76,27 @@ class MQTT {
   }
 
   onLeavesReceive(id, packet, client) {
-    console.log('leeave:', id, packet);
-    const leaves = parseInt(packet.payload) === 1;
+    const leaves = packet.payload.toString() === 'True';
     let leavesDistance = -1;
 
-    if(leaves === true && TrainManager.trains && TrainManager.trains[id]) {
+    /*if(leaves === true && TrainManager.trains && TrainManager.trains[id]) {
       leavesDistance = TrainManager.trains[id].distance;
+    }*/
+    console.log('leaves:', id, packet, packet.payload.toString(), leaves);
+
+    if(leaves === true) {
+      console.log('leaves:', id, packet);
     }
 
     TrainManager.updateTrain(id, {
       leaves,
-      leavesDistance,
+      // leavesDistance,
      });
   }
 
   onSpeedReceive(id, packet, client) {
     const speed = parseFloat(packet.payload);
-    console.log('speed:', id, packet, speed);
+    // console.log('speed:', id, packet, speed);
 
     TrainManager.updateTrain(id, { trainSpeed: speed });
   }
@@ -98,28 +104,41 @@ class MQTT {
 
   onDistanceReceive(id, packet, client) {
     const dist = parseFloat(packet.payload);
-    console.log('speed:', id, packet, dist);
+    // console.log('speed:', id, packet, dist);
 
     TrainManager.updateTrain(id, { distance: dist });
   }
 
   onLaserReceive(id, packet, client) {
-    console.log('laser:', id, packet);
+    // console.log('laser:', id, packet);
     const laser = parseInt(packet.payload) === 1;
     TrainManager.updateTrain(id, { laser: laser });
   }
 
   onFlagReceive(id, packet, client) {
-    console.log('flag:', id, packet);
+    // console.log('flag:', id, packet);
     const flag = parseInt(packet.payload);
     TrainManager.updateTrain(id, { flag: flag });
   }
 
   onLonReceive(id, packet, client) {
-    console.log('lon:', id, packet);
+    // console.log('lon:', id, packet);
     const lon = parseFloat(packet.payload);
     TrainManager.updateTrain(id, { leavesLon: lon });
   }
+
+  onLeavesDistanceReceived(id, packet, client) {
+    // console.log('lon:', id, packet);
+    const lon = parseFloat(packet.payload);
+    TrainManager.updateTrain(id, { leavesDistance: lon });
+  }
+
+  onLeavesLengthReceived(id, packet, client) {
+    // console.log('lon:', id, packet);
+    const lon = parseFloat(packet.payload);
+    TrainManager.updateTrain(id, { leavesLength: lon });
+  }
+  
 }
 
 module.exports = MQTT;
